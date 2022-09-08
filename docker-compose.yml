@@ -1,0 +1,17 @@
+version: "3" # версия докера
+services: # контейнеры
+  server: #имя контейнера(любое)
+    build: ./php
+    ports: #порты устр-во:докер
+      - 8080:80
+    volumes: # связывание с папкой на вирт машине
+      - ./www:/var/www/html
+    depends_on: # зависимость, после чего запускаем
+      - data
+  data: #имя контейнера
+    image: mariadb:latest #образ db
+    restart: always #поведение при краше
+    volumes: #связывание с пакой на вм
+      - ./sql:/docker-entrypoint-initdb.d
+    environment:
+      MARIADB_ROOT_PASSWORD: root
